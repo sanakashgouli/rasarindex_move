@@ -399,6 +399,10 @@ public:
 
     trees_bv.load(in);
   }
+  
+public:
+ std::vector<std::vector<ulint>> upTable;
+ std::vector<std::vector<ulint>> downTable;
 
 protected:
   std::unordered_map<ulint, ulint> phi_x_inv; // map of phi or phi_inverse values
