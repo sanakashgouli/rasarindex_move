@@ -242,7 +242,24 @@ public:
     ulint query_csa(ulint sa_i, std::vector<ulint> &ssa) {
       return csa.query(sa_i, bwt, pred_to_run, pred, samples_last, ssa);
     }
+    
+void get_table_vals(std::vector<ulint> &ssa, std::vector<ulint> &bwt_pos, std::vector<ulint> &tails) {
+        // get bwt_pos sa[i] and sa[i-1]
+        // sa[0] points to sa[n]
+        ulint n = samples_last.size();
+        ulint bwt_i = 0;
+        bwt_pos[0] = bwt_i;
+        tails[0] = samples_last[n - 1];
+        bwt_i += 1;
 
+        for(size_t i = 1; i < n; i++) {
+            ulint sa_j = samples_last[i - 1];
+            bwt_pos[i] = bwt_i;
+            tails[i] = sa_j;
+            bwt_i += bwt.run_range(i).second;
+        }
+    }
+    
     /*
      * Phi function. Phi(SA[0]) is undefined
      */
